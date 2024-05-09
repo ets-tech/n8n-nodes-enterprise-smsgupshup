@@ -13,6 +13,7 @@ export class GupshupNode implements INodeType {
         group: ['transform'],
         version: 1,
         description: 'Node to send messages using Gupshup API',
+        icon: "file:gupshup.svg",
         defaults: {
             name: 'Gupshup',
         },
