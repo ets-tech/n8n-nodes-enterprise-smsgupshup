@@ -127,19 +127,19 @@ export const whatsAppAdditionalField: INodeProperties[] = [{
                 },
             },
         },
-        // {
-        //     displayName: 'Msg',
-        //     name: 'msg',
-        //     type: 'string',
-        //     default: '',
-        //     placeholder: 'Enter msg',
-        //     description: '',
-        //     displayOptions: {
-        //         show: {
-        //             '/type': ['sendMessageWithFile'],
-        //         },
-        //     },
-        // },
+        {
+            displayName: 'Msg',
+            name: 'msg',
+            type: 'string',
+            default: '',
+            placeholder: 'Enter msg',
+            description: '',
+            displayOptions: {
+                show: {
+                    '/type': ['sendMessageWithFile'],
+                },
+            },
+        },
         {
             displayName: 'File Name',
             name: 'filename',

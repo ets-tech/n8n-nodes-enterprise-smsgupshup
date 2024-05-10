@@ -92,7 +92,27 @@ export class GupshupNode implements INodeType {
                 required: true,
                 displayOptions: {
                     show: {
-                        resource: ['sms_enterprise', 'whatsapp'],
+                        resource: ['sms_enterprise'],
+                    },
+                    hide: {
+                        resource: ['whatsapp']
+                    }
+                },
+                typeOptions: {
+                    rows: 4,
+                },
+            },
+            {
+                displayName: 'Message',
+                name: 'msg',
+                type: 'string',
+                default: '',
+                placeholder: 'Enter message',
+                required: true,
+                displayOptions: {
+                    show: {
+                        resource: ['whatsapp'],
+                        type: ['sendMessage']
                     },
                 },
                 typeOptions: {
@@ -177,7 +197,6 @@ export class GupshupNode implements INodeType {
                         format: 'json',
                         msg_type: 'IMAGE',
                         method: 'SENDMEDIAMESSAGE',
-                        caption: this.getNodeParameter('msg', 0) as string,
                         media_url: this.getNodeParameter('fileUrl', 0) as string,
                         is_template: 'true',
                         ...whatsAppAdditionalFieldsValues
