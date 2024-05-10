@@ -139,6 +139,9 @@ export const whatsAppAdditionalField: INodeProperties[] = [{
                     '/type': ['sendMessageWithFile'],
                 },
             },
+            typeOptions: {
+                rows: 4,
+            },
         },
         {
             displayName: 'File Name',
