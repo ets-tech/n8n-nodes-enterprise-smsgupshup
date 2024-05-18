@@ -65,8 +65,16 @@ export class GupshupNode implements INodeType {
                         value: 'sendMessage',
                     },
                     {
-                        name: 'Send Message with File',
-                        value: 'sendMessageWithFile',
+                        name: 'Send Message with Image',
+                        value: 'sendMessageWithImage',
+                    },
+                    {
+                        name: 'Send Message with Video',
+                        value: 'sendMessageWithVideo',
+                    },
+                    {
+                        name: 'Send Message with PDF',
+                        value: 'sendMessageWithPDF',
                     },
                 ]
             },
@@ -84,7 +92,7 @@ export class GupshupNode implements INodeType {
                 },
             },
             {
-                displayName: 'Message',
+                displayName: 'SMS Message',
                 name: 'msg',
                 type: 'string',
                 default: '',
@@ -103,7 +111,7 @@ export class GupshupNode implements INodeType {
                 },
             },
             {
-                displayName: 'Message',
+                displayName: 'Whatsapp Message',
                 name: 'msg',
                 type: 'string',
                 default: '',
@@ -120,6 +128,24 @@ export class GupshupNode implements INodeType {
                 },
             },
             {
+                displayName: 'Caption',
+                name: 'caption',
+                type: 'string',
+                default: '',
+                required: true,
+                placeholder: 'Enter caption',
+                description: '',
+                displayOptions: {
+                    show: {
+                        resource: ['whatsapp'],
+                        '/type': ['sendMessageWithImage', 'sendMessageWithVideo', 'sendMessageWithPDF'],
+                    },
+                },
+                typeOptions: {
+                    rows: 4,
+                },
+            },
+            {
                 displayName: 'File URL',
                 name: 'fileUrl',
                 type: 'string',
@@ -128,7 +154,7 @@ export class GupshupNode implements INodeType {
                 required: true,
                 displayOptions: {
                     show: {
-                        type: ['sendMessageWithFile'],
+                        type: ['sendMessageWithImage', 'sendMessageWithVideo', 'sendMessageWithPDF'],
                         resource: ['whatsapp'],
                     },
                 },
@@ -162,48 +188,57 @@ export class GupshupNode implements INodeType {
             });
         } else if (resource == 'whatsapp') {
             let type = this.getNodeParameter('type', 0);
-            if (type == 'sendMessage') {
-                let whatsAppAdditionalFieldsValues = getWhatsappAdditionalFields(this.getNodeParameter('additionalFields', 0));
-                response = await this.helpers.httpRequest({
-                    url: 'https://media.smsgupshup.com/GatewayAPI/rest',
-                    method: 'GET',
-                    qs: {
-                        method: 'SENDMESSAGE',
-                        userid: credential?.userid as string,
-                        password: credential?.password as string,
-                        send_to: this.getNodeParameter('mobile', 0) as string,
-                        msg: this.getNodeParameter('msg', 0) as string,
-                        auth_scheme: 'plain',
-                        format: 'json',
-                        v: '1.1',
-                        isTemplate: 'true',
-                        msg_type: 'TEXT',
-                        ...whatsAppAdditionalFieldsValues
-                    },
-                    json: true,
-                });
-            }
-            else if (type == 'sendMessageWithFile') {
-                let whatsAppAdditionalFieldsValues = getWhatsappAdditionalFields(this.getNodeParameter('additionalFields', 0));
+            let whatsAppAdditionalFieldsValues = getWhatsappAdditionalFields(this.getNodeParameter('additionalFields', 0));
 
-                response = await this.helpers.httpRequest({
-                    url: 'https://media.smsgupshup.com/GatewayAPI/rest',
-                    method: 'GET',
-                    qs: {
-                        userid: credential?.userid as string,
-                        password: credential?.password as string,
-                        send_to: this.getNodeParameter('mobile', 0) as string,
-                        v: '1.1',
-                        format: 'json',
-                        msg_type: 'IMAGE',
-                        method: 'SENDMEDIAMESSAGE',
-                        media_url: this.getNodeParameter('fileUrl', 0) as string,
-                        is_template: 'true',
-                        ...whatsAppAdditionalFieldsValues
-                    },
-                    json: true,
-                });
+            let msgType = '';
+            let method = 'SENDMESSAGE';
+            let additionalQs: { [key: string]: string } = {};
+
+            switch (type) {
+                case 'sendMessage':
+                    msgType = 'TEXT';
+                    additionalQs = { msg: this.getNodeParameter('msg', 0) as string};
+                    break;
+                case 'sendMessageWithImage':
+                    msgType = 'IMAGE';
+                    method = 'SENDMEDIAMESSAGE';
+                    additionalQs = { media_url: this.getNodeParameter('fileUrl', 0) as string,
+                                     caption: this.getNodeParameter('caption', 0) as string};
+                    break;
+                case 'sendMessageWithVideo':
+                    msgType = 'VIDEO';
+                    method = 'SENDMEDIAMESSAGE';
+                    additionalQs = { media_url: this.getNodeParameter('fileUrl', 0) as string,
+                                     caption: this.getNodeParameter('caption', 0) as string};
+                    break;
+                case 'sendMessageWithPDF':
+                    msgType = 'DOCUMENT';
+                    method = 'SENDMEDIAMESSAGE';
+                    additionalQs = { media_url: this.getNodeParameter('fileUrl', 0) as string,
+                                     caption: this.getNodeParameter('caption', 0) as string};
+                    break;
+                default:
+                    throw new NodeOperationError(this.getNode(), `The type ${type} is not supported.`);
             }
+
+            response = await this.helpers.httpRequest({
+                url: 'https://media.smsgupshup.com/GatewayAPI/rest',
+                method: 'GET',
+                qs: {
+                    method: method,
+                    userid: credential?.userid as string,
+                    password: credential?.password as string,
+                    send_to: this.getNodeParameter('mobile', 0) as string,
+                    msg_type: msgType,
+                    format: 'json',
+                    v: '1.1',
+                    auth_scheme: 'plain',
+                    isTemplate: 'true',
+                    ...additionalQs,
+                    ...whatsAppAdditionalFieldsValues,
+                },
+                json: true,
+            });
         } else {
             throw new NodeOperationError(this.getNode(), resource + ' operation is not implemented.');
         }

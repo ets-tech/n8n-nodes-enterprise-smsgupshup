@@ -6,7 +6,7 @@ export const whatsAppAdditionalField: INodeProperties[] = [{
     placeholder: 'Add Field',
     displayOptions: {
         show: {
-            '/type': ['sendMessage', 'sendMessageWithFile'],
+            '/type': ['sendMessage', 'sendMessageWithImage', 'sendMessageWithVideo', 'sendMessageWithPDF'],
 
         },
     },
@@ -20,7 +20,7 @@ export const whatsAppAdditionalField: INodeProperties[] = [{
             default: false,
             displayOptions: {
                 show: {
-                    '/type': ['sendMessage', 'sendMessageWithFile'],
+                    '/type': ['sendMessage', 'sendMessageWithImage', 'sendMessageWithVideo', 'sendMessageWithPDF'],
 
                 },
             },
@@ -33,7 +33,7 @@ export const whatsAppAdditionalField: INodeProperties[] = [{
             placeholder: 'Enter mask',
             displayOptions: {
                 show: {
-                    '/type': ['sendMessage', 'sendMessageWithFile'],
+                    '/type': ['sendMessage', 'sendMessageWithImage', 'sendMessageWithVideo', 'sendMessageWithPDF'],
                 },
             },
         },
@@ -45,7 +45,7 @@ export const whatsAppAdditionalField: INodeProperties[] = [{
             placeholder: 'Enter url',
             displayOptions: {
                 show: {
-                    '/type': ['sendMessage', 'sendMessageWithFile'],
+                    '/type': ['sendMessage', 'sendMessageWithImage', 'sendMessageWithVideo', 'sendMessageWithPDF'],
                 },
             },
         },
@@ -58,7 +58,7 @@ export const whatsAppAdditionalField: INodeProperties[] = [{
             placeholder: 'Enter data encoding',
             displayOptions: {
                 show: {
-                    '/type': ['sendMessage', 'sendMessageWithFile'],
+                    '/type': ['sendMessage', 'sendMessageWithImage', 'sendMessageWithVideo', 'sendMessageWithPDF'],
                 },
             },
         },
@@ -70,7 +70,7 @@ export const whatsAppAdditionalField: INodeProperties[] = [{
             placeholder: 'Enter format',
             displayOptions: {
                 show: {
-                    '/type': ['sendMessage', 'sendMessageWithFile'],
+                    '/type': ['sendMessage', 'sendMessageWithImage', 'sendMessageWithVideo', 'sendMessageWithPDF'],
                 },
             },
         },
@@ -83,7 +83,7 @@ export const whatsAppAdditionalField: INodeProperties[] = [{
             description: '',
             displayOptions: {
                 show: {
-                    '/type': ['sendMessage', 'sendMessageWithFile'],
+                    '/type': ['sendMessage', 'sendMessageWithImage', 'sendMessageWithVideo', 'sendMessageWithPDF'],
                 },
             },
         },
@@ -96,7 +96,7 @@ export const whatsAppAdditionalField: INodeProperties[] = [{
             description: '',
             displayOptions: {
                 show: {
-                    '/type': ['sendMessage', 'sendMessageWithFile'],
+                    '/type': ['sendMessage', 'sendMessageWithImage', 'sendMessageWithVideo', 'sendMessageWithPDF'],
                 },
             },
         },
@@ -109,7 +109,7 @@ export const whatsAppAdditionalField: INodeProperties[] = [{
             description: '',
             displayOptions: {
                 show: {
-                    '/type': ['sendMessage', 'sendMessageWithFile'],
+                    '/type': ['sendMessage', 'sendMessageWithImage', 'sendMessageWithVideo', 'sendMessageWithPDF'],
                 },
             },
         },
@@ -123,20 +123,20 @@ export const whatsAppAdditionalField: INodeProperties[] = [{
             description: '',
             displayOptions: {
                 show: {
-                    '/type': ['sendMessage', 'sendMessageWithFile'],
+                    '/type': ['sendMessage', 'sendMessageWithImage', 'sendMessageWithVideo', 'sendMessageWithPDF'],
                 },
             },
         },
         {
-            displayName: 'Msg',
-            name: 'msg',
+            displayName: 'Caption',
+            name: 'caption',
             type: 'string',
             default: '',
-            placeholder: 'Enter msg',
+            placeholder: 'Enter caption',
             description: '',
             displayOptions: {
                 show: {
-                    '/type': ['sendMessageWithFile'],
+                    '/type': ['sendMessageWithImage', 'sendMessageWithVideo', 'sendMessageWithPDF'],
                 },
             },
             typeOptions: {
@@ -152,7 +152,7 @@ export const whatsAppAdditionalField: INodeProperties[] = [{
             description: '',
             displayOptions: {
                 show: {
-                    '/type': ['sendMessageWithFile'],
+                    '/type': ['sendMessageWithImage', 'sendMessageWithVideo', 'sendMessageWithPDF'],
                 },
             },
         },
